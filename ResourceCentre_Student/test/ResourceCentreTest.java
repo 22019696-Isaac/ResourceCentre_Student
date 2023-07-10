@@ -66,8 +66,23 @@ public class ResourceCentreTest {
 
 	@Test
 	public void testAddChromebook() {
-		//fail("Not yet implemented");
-		// write your code here 
+		assertNotNull(chromebookList);
+		assertEquals(0, chromebookList.size());
+		ResourceCentre.addChromebook(chromebookList, cb1);
+		assertEquals(1, chromebookList.size());
+		
+		ResourceCentre.addChromebook(chromebookList, cb2);
+		assertEquals(2, chromebookList.size());
+		assertSame(cb2, chromebookList.get(1));
+		
+		ResourceCentre.addChromebook(chromebookList, cb2);
+		assertEquals(2, chromebookList.size());
+		
+		Chromebook cb_invalid = new Chromebook("CB0013", "", "Win 10");
+		ResourceCentre.addChromebook(chromebookList, cb_invalid);
+		assertEquals(2, chromebookList.size());
+		
+		
 	}
 
 	@Test
@@ -109,8 +124,29 @@ public class ResourceCentreTest {
 
 	@Test
 	public void testRetrieveAllChromebook() {
-		//fail("Not yet implemented");
-		// write your code here
+		assertNotNull(chromebookList);
+		assertEquals(0, chromebookList.size());
+		String allChromebook = ResourceCentre.retrieveAllChromebook(chromebookList);
+		String testOutput = "";
+		assertEquals(testOutput, allChromebook);
+		
+		ResourceCentre.addChromebook(chromebookList, cb1);
+		ResourceCentre.addChromebook(chromebookList, cb2);
+		
+		assertEquals(2, chromebookList.size());
+		allChromebook = ResourceCentre.retrieveAllChromebook(chromebookList);
+		testOutput = String.format("%-10s %-30s %-10s %-10s %-20s\n","CB0011", "My Google Chromebook 1st", "Yes", "", "Mac OS");
+		testOutput += String.format("%-10s %-30s %-10s %-10s %-20s\n","CB0012", "SAMSUNG Chromebook 4+","Yes", "", "Win 10");
+		assertEquals(testOutput, allChromebook);
+		
+		cb3.setIsAvailable(false);
+		ResourceCentre.addChromebook(chromebookList, cb3);
+		assertEquals(3, chromebookList.size());
+		assertFalse(chromebookList.get(2).getIsAvailable());
+		allChromebook = ResourceCentre.retrieveAllChromebook(chromebookList);
+		testOutput = String.format("%-10s %-30s %-10s %-10s %-20s\n","CB0011", "My Google Chromebook 1st", "Yes", "", "Mac OS");
+		testOutput += String.format("%-10s %-30s %-10s %-10s %-20s\n","CB0012", "SAMSUNG Chromebook 4+","Yes", "", "Win 10");
+		assertEquals(testOutput, allChromebook);
 	}
 
 	@Test
